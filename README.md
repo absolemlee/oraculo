@@ -1,0 +1,2 @@
+# oraculisimo
+Oracle study repository
