@@ -1,5 +1,5 @@
 <?php
-
+/*Hector Lee Rodriguez aka @absolemlee NOV2024 */
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['question']) && !empty(trim($_POST['question']))) {
     $question = htmlspecialchars($_POST['question'], ENT_QUOTES, 'UTF-8');
 
