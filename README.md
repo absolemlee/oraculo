@@ -1,6 +1,13 @@
 # oraculisimo
 Oracle study  - 
 
+
+DB: sqlite3 database pointed to in 'resources/iching/data/iching.db' initially base on Richard Wilhelm's translation, worked on and translated. 
+PHP 8.1 used throughout scripting. Documentation has not been a focal point while integrating and developing.  
+
+
+
+
 As of this commit and all until a version 1.0 is reached: This is an experimental correspondence between the architecture of the yiqing and of the sacred ifa, along with other geomantic references. 
 
 
