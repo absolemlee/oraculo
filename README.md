@@ -1,6 +1,9 @@
 # oraculisimo
 Oracle study  - 
 
+This project now uses **Next.js** to render the oracle interface. Install dependencies with `npm install` and start the dev server using `npm run dev`.
+
+
 
 DB: sqlite3 database pointed to in 'resources/iching/data/iching.db' initially base on Richard Wilhelm's translation, worked on and translated. 
 PHP 8.1 used throughout scripting. Documentation has not been a focal point while integrating and developing.  
