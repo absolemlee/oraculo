@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Check composer.json existence
+      run: test -f composer.json || (echo "composer.json not found" && exit 1)
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
