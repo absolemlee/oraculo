@@ -32,6 +32,14 @@ function getHexagramNumber(hex) {
   return hexagramIdFromLines(hex) + 1;
 }
 
+function parseWilhelm(str) {
+  try {
+    return str ? JSON.parse(str.replace(/'/g, '"')) : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function Home() {
   const [question, setQuestion] = useState('');
   const [result, setResult] = useState(null);
@@ -52,14 +60,34 @@ export default function Home() {
       transformedDetails = ichingData[transformedNumber];
     }
 
-    setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails });
+    const judgment = parseWilhelm(details.wilhelm_judgment);
+    const image = parseWilhelm(details.wilhelm_image);
+
+    let transformedJudgment = null;
+    let transformedImage = null;
+    if (transformedDetails) {
+      transformedJudgment = parseWilhelm(transformedDetails.wilhelm_judgment);
+      transformedImage = parseWilhelm(transformedDetails.wilhelm_image);
+    }
+
+    setResult({
+      question,
+      number,
+      details,
+      judgment,
+      image,
+      hasChanging,
+      transformedNumber,
+      transformedDetails,
+      transformedJudgment,
+      transformedImage,
+    });
   };
 
   return (
     <div className="container">
       <Head>
         <title>Oraculo</title>
-        <link rel="stylesheet" href="/iching.css" />
       </Head>
       {!result && (
         <ul className="responsive-table">
@@ -92,21 +120,21 @@ export default function Home() {
                 <p>{result.details.wilhelm_symbolic}</p>
               </div>
             </li>
-            {result.details.wilhelm_judgment && (
+            {result.judgment && (
               <li className="table-header">
                 <div className="comment-section">
                   <h3>The Oracle's Judgment</h3>
-                  <p>{JSON.parse(result.details.wilhelm_judgment.replace(/'/g, '"')).text}</p>
-                  <p><strong>Explanation:</strong> {JSON.parse(result.details.wilhelm_judgment.replace(/'/g, '"')).comments}</p>
+                  <p>{result.judgment.text}</p>
+                  <p><strong>Explanation:</strong> {result.judgment.comments}</p>
                 </div>
               </li>
             )}
-            {result.details.wilhelm_image && (
+            {result.image && (
               <li className="table-header">
                 <div className="comment-section">
                   <h3>The Image Presented</h3>
-                  <p>{JSON.parse(result.details.wilhelm_image.replace(/'/g, '"')).text}</p>
-                  <p><strong>Explanation:</strong> {JSON.parse(result.details.wilhelm_image.replace(/'/g, '"')).comments}</p>
+                  <p>{result.image.text}</p>
+                  <p><strong>Explanation:</strong> {result.image.comments}</p>
                 </div>
               </li>
             )}
@@ -119,6 +147,18 @@ export default function Home() {
                   <h1><span style={{ fontSize: '3.5em' }}>{result.transformedDetails.hex_font}</span></h1>
                   <p><strong>Modern Name:</strong><br /> {result.transformedDetails.english}<br /></p>
                   <p><strong>Symbolic Meaning:</strong><br /><br /> {result.transformedDetails.wilhelm_symbolic}</p>
+                  {result.transformedJudgment && (
+                    <>
+                      <p>{result.transformedJudgment.text}</p>
+                      <p><strong>Explanation:</strong> {result.transformedJudgment.comments}</p>
+                    </>
+                  )}
+                  {result.transformedImage && (
+                    <>
+                      <p>{result.transformedImage.text}</p>
+                      <p><strong>Explanation:</strong> {result.transformedImage.comments}</p>
+                    </>
+                  )}
                 </div>
               </li>
             )}
