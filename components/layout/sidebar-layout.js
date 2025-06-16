@@ -13,10 +13,12 @@ export default function SidebarLayout({ children }) {
       <aside className={`${open ? 'block' : 'hidden'} md:block w-64 shrink-0 border-r bg-muted/50 p-4`}>
         <nav className="space-y-2">
           {menuItems.map(item => (
-            <a key={item.name} href={item.href} className="flex items-center gap-2 rounded-md p-2 hover:bg-accent">
-              <item.icon className="h-4 w-4" />
-              <span>{item.name}</span>
-            </a>
+            <Link key={item.name} href={item.href}>
+              <div className="flex items-center gap-2 rounded-md p-2 hover:bg-accent">
+                <item.icon className="h-4 w-4" />
+                <span>{item.name}</span>
+              </div>
+            </Link>
           ))}
         </nav>
       </aside>
