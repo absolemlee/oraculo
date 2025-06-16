@@ -215,7 +215,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    font-size: 1rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (min-width: 768px) {
+    html {
+      font-size: 1.125rem;
+    }
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    line-height: 1.6;
+  }
+  code, pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 }
