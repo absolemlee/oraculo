@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Menu, X, BookOpen } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../ui/button';
 
 export default function SidebarLayout({ children }) {
