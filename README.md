@@ -48,3 +48,5 @@ Running either `npm run dev` or `npm start` launches the app on port **4545**. T
 
 These endpoints make it easy to embed Oraculo as a module in larger projects or use it alongside other services.
 
+For full endpoint details see [API.md](API.md).
+
