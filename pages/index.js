@@ -46,13 +46,17 @@ export default function Home() {
     let transformed = null;
     let transformedNumber = null;
     let transformedDetails = null;
+    let changingLineDetails = [];
     if (hasChanging) {
-      transformed = hex.map(l => l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l);
-      transformedNumber = getHexagramNumber(transformed);
-      transformedDetails = ichingData[transformedNumber];
+      const processed = processChangingLines(hex, details);
+      changingLines.push(...processed.changingLines);
+      changingLineDetails = processed.changingLineDetails;
+      transformed = processed.transformed;
+      transformedNumber = processed.transformedNumber;
+      transformedDetails = processed.transformedDetails;
     }
 
-    setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails });
+    setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
   };
 
   return (
@@ -110,6 +114,19 @@ export default function Home() {
                   </div>
                 </li>
               )}
+            {result.changingLineDetails && result.changingLineDetails.length > 0 && (
+              <li className="table-header">
+                <div className="comment-section">
+                  <h3>Changing Lines</h3>
+                  {result.changingLineDetails.map(l => (
+                    <p key={l.line}>
+                      <strong>Line {l.line}:</strong> {l.text}<br />
+                      <em>{l.comments}</em>
+                    </p>
+                  ))}
+                </div>
+              </li>
+            )}
             {result.hasChanging && (
               <li className="table-header">
                 <div className="comment-section">

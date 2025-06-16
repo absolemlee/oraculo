@@ -28,6 +28,10 @@ Response structure:
   "number": 15,
   "details": { /* hexagram data */ },
   "hasChanging": true,
+  "changingLineDetails": [
+    { "line": 2, "text": "...", "comments": "..." },
+    { "line": 5, "text": "...", "comments": "..." }
+  ],
   "transformedNumber": 32,
   "transformedDetails": { /* hexagram data */ }
 }
