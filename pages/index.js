@@ -42,7 +42,6 @@ export default function Home() {
     const number = getHexagramNumber(hex);
     const details = ichingData[number];
 
-    const changingLines = [];
     const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN);
     let transformed = null;
     let transformedNumber = null;
