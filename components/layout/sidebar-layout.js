@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 export default function SidebarLayout({ children }) {
   const [open, setOpen] = useState(false);
   const menuItems = useMemo(() => [
-    { name: 'Consult', icon: BookOpen, href: '#' },
+    { name: 'New Consult', icon: BookOpen, href: '/' },
   ], []);
 
   return (
@@ -23,16 +23,6 @@ export default function SidebarLayout({ children }) {
           ))}
         </nav>
       </aside>
-      <div className="flex flex-1 flex-col">
-        <header className="flex items-center gap-2 border-b p-2">
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen(!open)}>
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            <span className="sr-only">Toggle Menu</span>
-          </Button>
-          <h1 className="text-lg font-semibold">Oraculo</h1>
-        </header>
-        <main className="flex-1 p-4 overflow-y-auto">{children}</main>
-      </div>
     </div>
   );
 }
