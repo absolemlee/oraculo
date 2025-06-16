@@ -9,6 +9,13 @@ const YANG = 7;           // Two heads, one tail
 const YIN = 6;            // Two tails, one head
 const CHANGING_YIN = 8;   // Three tails
 
+// Map binary sequences to King Wen hexagram numbers
+const BINARY_TO_WEN = {};
+Object.keys(ichingData).forEach(num => {
+  const bin = ichingData[num].binary.toString().padStart(6, '0');
+  BINARY_TO_WEN[bin] = parseInt(num, 10);
+});
+
 function generateLine() {
   let heads = 0;
   for (let i = 0; i < 3; i++) heads += Math.round(Math.random());
@@ -25,7 +32,10 @@ function generateHexagram() {
 }
 
 function hexagramIdFromLines(hex) {
-  return parseInt(hex.map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0')).join(''), 2);
+  const binStr = hex
+    .map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0'))
+    .join('');
+  return BINARY_TO_WEN[binStr];
 }
 
 export default function handler(req, res) {
@@ -35,7 +45,7 @@ export default function handler(req, res) {
   }
   const question = Array.isArray(req.query.question) ? req.query.question[0] : (req.query.question || '');
   const hex = generateHexagram();
-  const number = hexagramIdFromLines(hex) + 1;
+  const number = hexagramIdFromLines(hex);
   const details = ichingData[number];
   const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN);
   let transformedNumber = null;
@@ -44,7 +54,7 @@ export default function handler(req, res) {
   if (hasChanging) {
     changingLineDetails = collectChangingLineDetails(hex, details);
     const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
-    transformedNumber = hexagramIdFromLines(transformed) + 1;
+    transformedNumber = hexagramIdFromLines(transformed);
     transformedDetails = ichingData[transformedNumber];
   }
   res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });

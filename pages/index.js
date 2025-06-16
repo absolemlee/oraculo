@@ -7,6 +7,13 @@ const YANG = 7;           // Two heads, one tail
 const YIN = 6;            // Two tails, one head
 const CHANGING_YIN = 8;   // Three tails
 
+// Map binary line patterns to the traditional King Wen hexagram numbers
+const BINARY_TO_WEN = {};
+Object.keys(ichingData).forEach(num => {
+  const bin = ichingData[num].binary.toString().padStart(6, '0');
+  BINARY_TO_WEN[bin] = parseInt(num, 10);
+});
+
 function generateLine() {
   let heads = 0;
   for (let i = 0; i < 3; i++) {
@@ -25,11 +32,14 @@ function generateHexagram() {
 }
 
 function hexagramIdFromLines(hex) {
-  return parseInt(hex.map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0')).join(''), 2);
+  const binStr = hex
+    .map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0'))
+    .join('');
+  return BINARY_TO_WEN[binStr];
 }
 
 function getHexagramNumber(hex) {
-  return hexagramIdFromLines(hex) + 1;
+  return hexagramIdFromLines(hex);
 }
 
 function processChangingLines(hex, details) {
