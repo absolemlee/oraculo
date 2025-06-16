@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Menu, X, BookOpen } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export default function SidebarLayout({ children }) {
   const [open, setOpen] = useState(false);
-  const menuItems = [
+  const menuItems = useMemo(() => [
     { name: 'Consult', icon: BookOpen, href: '#' },
-  ];
+  ], []);
 
   return (
     <div className="flex min-h-screen">
