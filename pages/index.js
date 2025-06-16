@@ -123,7 +123,7 @@ export default function Home() {
 
             <section className="text-center">
               <h3 className="text-xl font-semibold mb-2">Primary Symbol: {result.number}</h3>
-              <div className="text-5xl mb-2">{result.details.hex_font}</div>
+              <h1 className="text-5xl mb-2">{result.details.hex_font}</h1>
               <p className="font-semibold italic">{result.details.english}</p>
               <p>{result.details.wilhelm_symbolic}</p>
             </section>
@@ -160,7 +160,7 @@ export default function Home() {
               <section className="text-center">
                 <h3 className="text-xl font-semibold mb-2">Looking Forward</h3>
                 <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.</p>
-                <div className="text-5xl mb-2">{result.transformedDetails.hex_font}</div>
+                <h1 className="text-5xl mb-2">{result.transformedDetails.hex_font}</h1>
                 <p><strong>Symbolic Name:</strong> {result.transformedDetails.english}</p>
                 <p><strong>Symbolic Meaning:</strong> {result.transformedDetails.wilhelm_symbolic}</p>
               </section>
