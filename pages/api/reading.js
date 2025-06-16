@@ -1,6 +1,8 @@
 // API route to generate a random hexagram reading.
 // This allows Oraculo to be consumed as a module in larger projects.
-// Query parameter `question` is optional and echoed back in the response.
+// A question can be provided either as a query parameter (GET)
+// or in the JSON body of a POST request. The question value is
+// echoed back in the response.
 
 import ichingData from '../../resources/iching/data/iching.js';
 
@@ -39,11 +41,15 @@ function hexagramIdFromLines(hex) {
 }
 
 export default function handler(req, res) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'GET' && req.method !== 'POST') {
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
-  const question = Array.isArray(req.query.question) ? req.query.question[0] : (req.query.question || '');
+  const question = req.method === 'POST'
+    ? (req.body && req.body.question) || ''
+    : Array.isArray(req.query.question)
+      ? req.query.question[0]
+      : (req.query.question || '');
   const hex = generateHexagram();
   const number = hexagramIdFromLines(hex);
   const details = ichingData[number];

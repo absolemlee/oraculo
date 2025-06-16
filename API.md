@@ -16,9 +16,23 @@ The application will be available at `http://localhost:4545`.
 ### `GET /api/reading`
 Generate a random I‑Ching reading. The optional `question` query parameter is echoed back in the response.
 
-**Example**
+### `POST /api/reading`
+Send a JSON body containing a `question` field and receive the full reading response.
+Use this method when you prefer to provide the question in the request body instead of the query string.
+
+**Example (GET)**
 ```http
 GET http://localhost:4545/api/reading?question=What%20is%20my%20path
+```
+
+**Example (POST)**
+```http
+POST http://localhost:4545/api/reading
+Content-Type: application/json
+
+{
+  "question": "What is my path"
+}
 ```
 
 Response structure:
