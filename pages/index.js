@@ -4,6 +4,7 @@ import ichingData from '../resources/iching/data/iching.js';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { H1, H3, P, Small } from '../components/ui/typography';
 
 const CHANGING_YANG = 9;  // Three heads
 const YANG = 7;           // Two heads, one tail
@@ -96,7 +97,7 @@ export default function Home() {
         <title>Oracular Consultant</title>
       </Head>
       {!result && (
-        <Card className="mb-6">
+        <Card className="mb-6 bg-muted/50">
           <CardHeader>
             <CardTitle>Present your question to the Oracle</CardTitle>
           </CardHeader>
@@ -109,58 +110,69 @@ export default function Home() {
         </Card>
       )}
       {result && (
-        <Card className="print:shadow-none print:border print:p-8">
+        <Card className="print:shadow-none print:border print:p-8 bg-muted/50">
           <CardHeader>
             <CardTitle>Consultation</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <section>
-              <h3 className="text-xl font-semibold mb-2">Question</h3>
-              <p className="text-center italic">{result.question}</p>
+              <H3 className="mb-2">Question</H3>
+              <P className="text-center italic">{result.question}</P>
             </section>
 
             <section className="text-center">
-              <h3 className="text-xl font-semibold mb-2">Primary Symbol: {result.number}</h3>
-              <h1 className="text-5xl mb-2">{result.details.hex_font}</h1>
-              <p className="font-semibold italic">{result.details.english}</p>
-              <p>{result.details.wilhelm_symbolic}</p>
+              <H3 className="mb-2">Primary Symbol: {result.number}</H3>
+              <H1 className="text-5xl mb-2">{result.details.hex_font}</H1>
+              <P className="font-semibold italic">{result.details.english}</P>
+              <P>{result.details.wilhelm_symbolic}</P>
             </section>
 
             {result.details.wilhelm_judgment && (
               <section>
-                <h3 className="text-xl font-semibold mb-2">Oracular Domain</h3>
-                <p>{result.details.wilhelm_judgment.text}</p>
-                <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
+                <H3 className="mb-2">Oracular Domain</H3>
+                <P>{result.details.wilhelm_judgment.text}</P>
+                <Small>
+                  <strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}
+                </Small>
               </section>
             )}
 
             {result.details.wilhelm_image && (
               <section>
-                <h3 className="text-xl font-semibold mb-2">Oracular Image</h3>
-                <p>{result.details.wilhelm_image.text}</p>
-                <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
+                <H3 className="mb-2">Oracular Image</H3>
+                <P>{result.details.wilhelm_image.text}</P>
+                <Small>
+                  <strong>Explanation:</strong> {result.details.wilhelm_image.comments}
+                </Small>
               </section>
             )}
 
             {result.changingLineDetails && result.changingLineDetails.length > 0 && (
               <section>
-                <h3 className="text-xl font-semibold mb-2">Changing Layers</h3>
+                <H3 className="mb-2">Changing Layers</H3>
                 {result.changingLineDetails.map(l => (
-                  <p key={l.line}>
-                    <strong>Layer {l.line}:</strong> {l.text}<br />
+                  <P key={l.line}>
+                    <strong>Layer {l.line}:</strong> {l.text}
+                    <br />
                     <em>{l.comments}</em>
-                  </p>
+                  </P>
                 ))}
               </section>
             )}
 
             {result.hasChanging && (
               <section className="text-center">
-                <h3 className="text-xl font-semibold mb-2">Looking Forward</h3>
-                <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.</p>
-                <h1 className="text-5xl mb-2">{result.transformedDetails.hex_font}</h1>
-                <p><strong>Symbolic Name:</strong> {result.transformedDetails.english}</p>
-                <p><strong>Symbolic Meaning:</strong> {result.transformedDetails.wilhelm_symbolic}</p>
+                <H3 className="mb-2">Looking Forward</H3>
+                <P>
+                  There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.
+                </P>
+                <H1 className="text-5xl mb-2">{result.transformedDetails.hex_font}</H1>
+                <P>
+                  <strong>Symbolic Name:</strong> {result.transformedDetails.english}
+                </P>
+                <P>
+                  <strong>Symbolic Meaning:</strong> {result.transformedDetails.wilhelm_symbolic}
+                </P>
               </section>
             )}
           </CardContent>
