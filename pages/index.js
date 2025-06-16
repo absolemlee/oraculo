@@ -49,19 +49,12 @@ export default function Home() {
     let transformedDetails = null;
     let changingLineDetails = [];
     if (hasChanging) {
-      hex.forEach((l, idx) => {
-        if (l === CHANGING_YANG || l === CHANGING_YIN) {
-          const lineNo = idx + 1;
-          changingLines.push(lineNo);
-          const lineData = details.wilhelm_lines[String(lineNo)];
-          if (lineData) {
-            changingLineDetails.push({ line: lineNo, ...lineData });
-          }
-        }
-      });
-      transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
-      transformedNumber = getHexagramNumber(transformed);
-      transformedDetails = ichingData[transformedNumber];
+      const processed = processChangingLines(hex, details);
+      changingLines.push(...processed.changingLines);
+      changingLineDetails = processed.changingLineDetails;
+      transformed = processed.transformed;
+      transformedNumber = processed.transformedNumber;
+      transformedDetails = processed.transformedDetails;
     }
 
     setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
