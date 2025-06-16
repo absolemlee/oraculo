@@ -42,19 +42,24 @@ export default function handler(req, res) {
   let transformedDetails = null;
   let changingLineDetails = [];
   if (hasChanging) {
-    hex.forEach((l, idx) => {
-      if (l === CHANGING_YANG || l === CHANGING_YIN) {
-        const lineNo = idx + 1;
-        const lineData = details.wilhelm_lines[String(lineNo)];
-        if (lineData) {
-          changingLineDetails.push({ line: lineNo, ...lineData });
-        }
-      }
-    });
+    changingLineDetails = collectChangingLineDetails(hex, details);
     const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
     transformedNumber = hexagramIdFromLines(transformed) + 1;
     transformedDetails = ichingData[transformedNumber];
   }
 
+function collectChangingLineDetails(hex, details) {
+  const changingLineDetails = [];
+  hex.forEach((l, idx) => {
+    if (l === CHANGING_YANG || l === CHANGING_YIN) {
+      const lineNo = idx + 1;
+      const lineData = details.wilhelm_lines[String(lineNo)];
+      if (lineData) {
+        changingLineDetails.push({ line: lineNo, ...lineData });
+      }
+    }
+  });
+  return changingLineDetails;
+}
   res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
 }
