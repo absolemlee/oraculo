@@ -39,3 +39,12 @@ This repository contains a lightweight Next.js application for generating I‑Ch
 2. Visit the app in your browser, enter a question, and submit the form.
 3. The page generates a random hexagram, fetches the text from `resources/iching/data/iching.js`, and renders the reading with an optional transformed hexagram if changing lines are present.
 
+## API Usage
+
+Running either `npm run dev` or `npm start` launches the app on port **4545**. Two API routes are provided for programmatic use:
+
+- `GET /api/reading?question=your+text` generates a random reading and returns the details as JSON.
+- `GET /api/hexagram/[number]` retrieves a specific hexagram record.
+
+These endpoints make it easy to embed Oraculo as a module in larger projects or use it alongside other services.
+
