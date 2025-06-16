@@ -32,6 +32,25 @@ function getHexagramNumber(hex) {
   return hexagramIdFromLines(hex) + 1;
 }
 
+function processChangingLines(hex, details) {
+  const changingLines = [];
+  const changingLineDetails = [];
+  hex.forEach((l, idx) => {
+    if (l === CHANGING_YANG || l === CHANGING_YIN) {
+      const lineNo = idx + 1;
+      changingLines.push(lineNo);
+      const lineData = details.wilhelm_lines[String(lineNo)];
+      if (lineData) {
+        changingLineDetails.push({ line: lineNo, ...lineData });
+      }
+    }
+  });
+  const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
+  const transformedNumber = getHexagramNumber(transformed);
+  const transformedDetails = ichingData[transformedNumber];
+  return { changingLines, changingLineDetails, transformed, transformedNumber, transformedDetails };
+}
+
 export default function Home() {
   const [question, setQuestion] = useState('');
   const [result, setResult] = useState(null);
@@ -49,7 +68,6 @@ export default function Home() {
     let changingLineDetails = [];
     if (hasChanging) {
       const processed = processChangingLines(hex, details);
-      changingLines.push(...processed.changingLines);
       changingLineDetails = processed.changingLineDetails;
       transformed = processed.transformed;
       transformedNumber = processed.transformedNumber;
