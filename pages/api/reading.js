@@ -47,6 +47,8 @@ export default function handler(req, res) {
     transformedNumber = hexagramIdFromLines(transformed) + 1;
     transformedDetails = ichingData[transformedNumber];
   }
+  res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
+}
 
 function collectChangingLineDetails(hex, details) {
   const changingLineDetails = [];
