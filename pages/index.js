@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import ichingData from '../resources/iching/data/iching.js';
+import SidebarLayout from '../components/layout/sidebar-layout';
 import { Button } from '../components/ui/button';
 import { Textarea } from '../components/ui/textarea';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
@@ -91,7 +92,8 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-4">
+    <SidebarLayout>
+      <div className="mx-auto max-w-2xl p-4">
       <Head>
         <title>Oracular Consultant</title>
       </Head>
@@ -188,5 +190,6 @@ export default function Home() {
         </div>
       )}
     </div>
+    </SidebarLayout>
   );
 }
