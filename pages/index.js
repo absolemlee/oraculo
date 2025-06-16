@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import ichingData from '../resources/iching/data/iching.js';
+import { Button } from '../components/ui/button';
+import { Textarea } from '../components/ui/textarea';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 
 const CHANGING_YANG = 9;  // Three heads
 const YANG = 7;           // Two heads, one tail
@@ -88,87 +91,100 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
+    <div className="mx-auto max-w-2xl p-4">
       <Head>
         <title>Oracular Consultant</title>
-        <link rel="stylesheet" href="/iching.css" />
       </Head>
       {!result && (
-        <ul className="responsive-table">
-          <li className="table-header">
-            <div className="comment-section">
-              <h1><strong>Present your question to the Oracle:</strong></h1>
-              <form onSubmit={handleSubmit}>
-                <textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required /><br /><br />
-                <input type="submit" value="Ask" />
-              </form>
-            </div>
-          </li>
-        </ul>
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Present your question to the Oracle</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required />
+              <Button type="submit">Ask</Button>
+            </form>
+          </CardContent>
+        </Card>
       )}
       {result && (
-        <div>
-          <h2>Oracular Consultation</h2>
-          <ul className="responsive-table">
-            <li className="table-header">
-              <div className="comment-section">
-                <h1><strong>Focal query:</strong></h1><br /><br /><h2><em>{result.question}</em></h2>
-              </div>
-            </li>
-            <li className="table-header">
-              <div className="comment-section">
-                <h1><strong>Oracular Response:</strong></h1>
-                <h3>Primary Symbol: {result.number}</h3>
-                <h1><span style={{ fontSize: '3.5em' }}>{result.details.hex_font}</span></h1>
-                <strong><em>{result.details.english}</em></strong><br />
-                <p>{result.details.wilhelm_symbolic}</p>
-              </div>
-            </li>
-              {result.details.wilhelm_judgment && (
-                <li className="table-header">
-                  <div className="comment-section">
-                    <h3>Oracular Domain</h3>
-                    <p>{result.details.wilhelm_judgment.text}</p>
-                    <p><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
-                  </div>
-                </li>
-              )}
-              {result.details.wilhelm_image && (
-                <li className="table-header">
-                  <div className="comment-section">
-                    <h3>Oracular Image</h3>
-                    <p>{result.details.wilhelm_image.text}</p>
-                    <p><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
-                  </div>
-                </li>
-              )}
-            {result.changingLineDetails && result.changingLineDetails.length > 0 && (
-              <li className="table-header">
-                <div className="comment-section">
-                  <h3>Changing Layers</h3>
-                  {result.changingLineDetails.map(l => (
-                    <p key={l.line}>
-                      <strong>Layer {l.line}:</strong> {l.text}<br />
-                      <em>{l.comments}</em>
-                    </p>
-                  ))}
-                </div>
-              </li>
-            )}
-            {result.hasChanging && (
-              <li className="table-header">
-                <div className="comment-section">
-                  <h3>Looking Forward</h3>
-                  <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Focal query</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-center italic">{result.question}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Oracular Response</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-center">
+              <h3 className="text-lg font-semibold">Primary Symbol: {result.number}</h3>
+              <div className="text-5xl">{result.details.hex_font}</div>
+              <p className="font-semibold italic">{result.details.english}</p>
+              <p>{result.details.wilhelm_symbolic}</p>
+            </CardContent>
+          </Card>
+
+          {result.details.wilhelm_judgment && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Oracular Domain</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>{result.details.wilhelm_judgment.text}</p>
+                <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {result.details.wilhelm_image && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Oracular Image</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p>{result.details.wilhelm_image.text}</p>
+                <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {result.changingLineDetails && result.changingLineDetails.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Changing Layers</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {result.changingLineDetails.map(l => (
+                  <p key={l.line}>
+                    <strong>Layer {l.line}:</strong> {l.text}<br />
+                    <em>{l.comments}</em>
                   </p>
-                  <h3>Symbol: {result.transformedNumber}</h3>
-                  <h1><span style={{ fontSize: '3.5em' }}>{result.transformedDetails.hex_font}</span></h1>
-                  <p><strong>Symbolic Name:</strong><br /> {result.transformedDetails.english}<br /></p>
-                  <p><strong>Symbolic Meaning:</strong><br /><br /> {result.transformedDetails.wilhelm_symbolic}</p>
-                </div>
-              </li>
-            )}
-          </ul>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          {result.hasChanging && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Looking Forward</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-center">
+                <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.</p>
+                <h3 className="text-lg font-semibold">Symbol: {result.transformedNumber}</h3>
+                <div className="text-5xl">{result.transformedDetails.hex_font}</div>
+                <p><strong>Symbolic Name:</strong> {result.transformedDetails.english}</p>
+                <p><strong>Symbolic Meaning:</strong> {result.transformedDetails.wilhelm_symbolic}</p>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
     </div>
