@@ -33,7 +33,7 @@ export default function handler(req, res) {
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
-  const question = req.query.question || '';
+  const question = Array.isArray(req.query.question) ? req.query.question[0] : (req.query.question || '');
   const hex = generateHexagram();
   const number = hexagramIdFromLines(hex) + 1;
   const details = ichingData[number];
