@@ -35,9 +35,11 @@ This repository contains a lightweight Next.js application for generating I‑Ch
 
 ## How it Works
 
-1. Run `npm install` followed by `npm run dev` to start the development server.
-2. Visit the app in your browser, enter a question, and submit the form.
-3. The page generates a random hexagram, fetches the text from `resources/iching/data/iching.js`, and renders the reading with an optional transformed hexagram if changing lines are present.
+1. Run `npm install` to install project dependencies.
+2. If the `components/ui` folder is missing UI elements, run `npm run shadcn:init` to install the default components from [shadcn/ui](https://ui.shadcn.com/).
+3. Start the development server with `npm run dev`.
+4. Visit the app in your browser, enter a question, and submit the form.
+5. The page generates a random hexagram, fetches the text from `resources/iching/data/iching.js`, and renders the reading with an optional transformed hexagram if changing lines are present.
 
 ## API Usage
 
