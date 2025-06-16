@@ -30,7 +30,7 @@ This repository contains a lightweight Next.js application for generating I‑Ch
 - **Client-side app with Next.js** – the main page is `pages/index.js`, which exports a React component for the oracle interface. Next.js configuration is minimal, enabling React strict mode in `next.config.js`.
 - **Generating hexagrams** – constants model the four possible line types. `generateLine()` tosses three coins to decide one line, `generateHexagram()` repeats this six times, and helper functions convert line sequences to a hexagram index.
 - **Handling a user question** – the `Home` component stores the user’s question and the reading result. On form submission it generates a hexagram, looks up descriptions in `resources/iching/data/iching.js`, and computes a transformed hexagram when changing lines appear.
-- **Displaying the reading** – the UI shows the user’s question, hexagram number, glyph, and commentary. If changing lines exist, the future hexagram is also displayed. Styling is provided by `public/iching.css`.
+- **Displaying the reading** – the UI shows the user’s question, hexagram number, glyph, and commentary. If changing lines exist, the future hexagram is also displayed. Styling comes from Tailwind CSS utilities and shadcn/ui components.
 - **Hexagram data** – `resources/iching/data/iching.js` is a large JSON object with translations and explanations. The same information is available in CSV and SQLite formats for reference.
 
 ## How it Works
