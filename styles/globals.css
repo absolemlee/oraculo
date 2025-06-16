@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('/iching.css');
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
