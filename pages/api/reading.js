@@ -63,5 +63,3 @@ function collectChangingLineDetails(hex, details) {
   });
   return changingLineDetails;
 }
-  res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
-}
