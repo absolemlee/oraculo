@@ -38,14 +38,23 @@ export default function handler(req, res) {
   const number = hexagramIdFromLines(hex) + 1;
   const details = ichingData[number];
   const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN);
-
   let transformedNumber = null;
   let transformedDetails = null;
+  let changingLineDetails = [];
   if (hasChanging) {
-    const transformed = hex.map(l => l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l);
+    hex.forEach((l, idx) => {
+      if (l === CHANGING_YANG || l === CHANGING_YIN) {
+        const lineNo = idx + 1;
+        const lineData = details.wilhelm_lines[String(lineNo)];
+        if (lineData) {
+          changingLineDetails.push({ line: lineNo, ...lineData });
+        }
+      }
+    });
+    const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
     transformedNumber = hexagramIdFromLines(transformed) + 1;
     transformedDetails = ichingData[transformedNumber];
   }
 
-  res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails });
+  res.status(200).json({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
 }
