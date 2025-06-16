@@ -111,83 +111,62 @@ export default function Home() {
         </Card>
       )}
       {result && (
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Focal query</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <Card className="print:shadow-none print:border print:p-8">
+          <CardHeader>
+            <CardTitle>Consultation</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <section>
+              <h3 className="text-xl font-semibold mb-2">Question</h3>
               <p className="text-center italic">{result.question}</p>
-            </CardContent>
-          </Card>
+            </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Oracular Response</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-center">
-              <h3 className="text-lg font-semibold">Primary Symbol: {result.number}</h3>
-              <div className="text-5xl">{result.details.hex_font}</div>
+            <section className="text-center">
+              <h3 className="text-xl font-semibold mb-2">Primary Symbol: {result.number}</h3>
+              <div className="text-5xl mb-2">{result.details.hex_font}</div>
               <p className="font-semibold italic">{result.details.english}</p>
               <p>{result.details.wilhelm_symbolic}</p>
-            </CardContent>
-          </Card>
+            </section>
 
-          {result.details.wilhelm_judgment && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Oracular Domain</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
+            {result.details.wilhelm_judgment && (
+              <section>
+                <h3 className="text-xl font-semibold mb-2">Oracular Domain</h3>
                 <p>{result.details.wilhelm_judgment.text}</p>
                 <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
-              </CardContent>
-            </Card>
-          )}
+              </section>
+            )}
 
-          {result.details.wilhelm_image && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Oracular Image</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
+            {result.details.wilhelm_image && (
+              <section>
+                <h3 className="text-xl font-semibold mb-2">Oracular Image</h3>
                 <p>{result.details.wilhelm_image.text}</p>
                 <p className="text-sm"><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
-              </CardContent>
-            </Card>
-          )}
+              </section>
+            )}
 
-          {result.changingLineDetails && result.changingLineDetails.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Changing Layers</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
+            {result.changingLineDetails && result.changingLineDetails.length > 0 && (
+              <section>
+                <h3 className="text-xl font-semibold mb-2">Changing Layers</h3>
                 {result.changingLineDetails.map(l => (
                   <p key={l.line}>
                     <strong>Layer {l.line}:</strong> {l.text}<br />
                     <em>{l.comments}</em>
                   </p>
                 ))}
-              </CardContent>
-            </Card>
-          )}
+              </section>
+            )}
 
-          {result.hasChanging && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Looking Forward</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 text-center">
+            {result.hasChanging && (
+              <section className="text-center">
+                <h3 className="text-xl font-semibold mb-2">Looking Forward</h3>
                 <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.</p>
-                <h3 className="text-lg font-semibold">Symbol: {result.transformedNumber}</h3>
-                <div className="text-5xl">{result.transformedDetails.hex_font}</div>
+                <div className="text-5xl mb-2">{result.transformedDetails.hex_font}</div>
                 <p><strong>Symbolic Name:</strong> {result.transformedDetails.english}</p>
                 <p><strong>Symbolic Meaning:</strong> {result.transformedDetails.wilhelm_symbolic}</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+              </section>
+            )}
+          </CardContent>
+        </Card>
       )}
     </div>
     </SidebarLayout>
