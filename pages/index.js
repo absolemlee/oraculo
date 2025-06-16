@@ -92,24 +92,24 @@ export default function Home() {
                 <p>{result.details.wilhelm_symbolic}</p>
               </div>
             </li>
-            {result.details.wilhelm_judgment && (
-              <li className="table-header">
-                <div className="comment-section">
-                  <h3>The Oracle's Judgment</h3>
-                  <p>{JSON.parse(result.details.wilhelm_judgment.replace(/'/g, '"')).text}</p>
-                  <p><strong>Explanation:</strong> {JSON.parse(result.details.wilhelm_judgment.replace(/'/g, '"')).comments}</p>
-                </div>
-              </li>
-            )}
-            {result.details.wilhelm_image && (
-              <li className="table-header">
-                <div className="comment-section">
-                  <h3>The Image Presented</h3>
-                  <p>{JSON.parse(result.details.wilhelm_image.replace(/'/g, '"')).text}</p>
-                  <p><strong>Explanation:</strong> {JSON.parse(result.details.wilhelm_image.replace(/'/g, '"')).comments}</p>
-                </div>
-              </li>
-            )}
+              {result.details.wilhelm_judgment && (
+                <li className="table-header">
+                  <div className="comment-section">
+                    <h3>The Oracle's Judgment</h3>
+                    <p>{result.details.wilhelm_judgment.text}</p>
+                    <p><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
+                  </div>
+                </li>
+              )}
+              {result.details.wilhelm_image && (
+                <li className="table-header">
+                  <div className="comment-section">
+                    <h3>The Image Presented</h3>
+                    <p>{result.details.wilhelm_image.text}</p>
+                    <p><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
+                  </div>
+                </li>
+              )}
             {result.hasChanging && (
               <li className="table-header">
                 <div className="comment-section">
