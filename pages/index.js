@@ -90,16 +90,16 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Oraculo</title>
+        <title>Oracular Consultant</title>
         <link rel="stylesheet" href="/iching.css" />
       </Head>
       {!result && (
         <ul className="responsive-table">
           <li className="table-header">
-            <div className="col col-1" style={{ textAlign: 'center' }}>
-              <h1><strong>Pose your question to the Oracle here:</strong></h1>
+            <div className="comment-section">
+              <h1><strong>Present your question to the Oracle:</strong></h1>
               <form onSubmit={handleSubmit}>
-                <input type="text" value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required /><br /><br />
+                <textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required /><br /><br />
                 <input type="submit" value="Ask" />
               </form>
             </div>
@@ -108,18 +108,18 @@ export default function Home() {
       )}
       {result && (
         <div>
-          <h2>The Oracle's Response</h2>
+          <h2>Oracular Consultation</h2>
           <ul className="responsive-table">
             <li className="table-header">
-              <div className="col col-1" style={{ textAlign: 'center' }}>
-                <h1><strong>Your question:</strong><br /><br /><em>{result.question}</em></h1>
+              <div className="comment-section">
+                <h1><strong>Focal query:</strong></h1><br /><br /><h2><em>{result.question}</em></h2>
               </div>
             </li>
             <li className="table-header">
-              <div className="col col-1" style={{ textAlign: 'center' }}>
-                <h1><strong>The Oracle Responds:</strong></h1>
-                <br />Hexagram {result.number}<br />
-                <span style={{ fontSize: '4.2em' }}>{result.details.hex_font}</span><br />
+              <div className="comment-section">
+                <h1><strong>Oracular Response:</strong></h1>
+                <h3>Primary Symbol: {result.number}</h3>
+                <h1><span style={{ fontSize: '3.5em' }}>{result.details.hex_font}</span></h1>
                 <strong><em>{result.details.english}</em></strong><br />
                 <p>{result.details.wilhelm_symbolic}</p>
               </div>
@@ -127,7 +127,7 @@ export default function Home() {
               {result.details.wilhelm_judgment && (
                 <li className="table-header">
                   <div className="comment-section">
-                    <h3>The Oracle's Judgment</h3>
+                    <h3>Oracular Domain</h3>
                     <p>{result.details.wilhelm_judgment.text}</p>
                     <p><strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}</p>
                   </div>
@@ -136,7 +136,7 @@ export default function Home() {
               {result.details.wilhelm_image && (
                 <li className="table-header">
                   <div className="comment-section">
-                    <h3>The Image Presented</h3>
+                    <h3>Oracular Image</h3>
                     <p>{result.details.wilhelm_image.text}</p>
                     <p><strong>Explanation:</strong> {result.details.wilhelm_image.comments}</p>
                   </div>
@@ -145,10 +145,10 @@ export default function Home() {
             {result.changingLineDetails && result.changingLineDetails.length > 0 && (
               <li className="table-header">
                 <div className="comment-section">
-                  <h3>Changing Lines</h3>
+                  <h3>Changing Layers</h3>
                   {result.changingLineDetails.map(l => (
                     <p key={l.line}>
-                      <strong>Line {l.line}:</strong> {l.text}<br />
+                      <strong>Layer {l.line}:</strong> {l.text}<br />
                       <em>{l.comments}</em>
                     </p>
                   ))}
@@ -158,11 +158,12 @@ export default function Home() {
             {result.hasChanging && (
               <li className="table-header">
                 <div className="comment-section">
-                  <h3>The Future</h3>
-                  <p>The Oracle says that changes are occurring, the path you are on will most likely lead towards:</p>
-                  <h3>Hexagram: {result.transformedNumber}</h3>
+                  <h3>Looking Forward</h3>
+                  <p>There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.
+                  </p>
+                  <h3>Symbol: {result.transformedNumber}</h3>
                   <h1><span style={{ fontSize: '3.5em' }}>{result.transformedDetails.hex_font}</span></h1>
-                  <p><strong>Modern Name:</strong><br /> {result.transformedDetails.english}<br /></p>
+                  <p><strong>Symbolic Name:</strong><br /> {result.transformedDetails.english}<br /></p>
                   <p><strong>Symbolic Meaning:</strong><br /><br /> {result.transformedDetails.wilhelm_symbolic}</p>
                 </div>
               </li>
