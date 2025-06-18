@@ -2,7 +2,7 @@
 Oracle study -
 
 This project now uses **Next.js** to render the oracle interface. Install dependencies with `npm install` and start the dev server using `npm run dev`.
-This project is implemented entirely in JavaScript using React and Next.js; PHP is no longer required.
+This project is implemented primarily in TypeScript with React and Next.js; PHP is no longer required.
 
 DB: sqlite3 database pointed to in `resources/iching/data/iching.db` initially base on Richard Wilhelm's translation, worked on and translated.
 
@@ -27,11 +27,11 @@ lee@absolemly.com
 
 This repository contains a lightweight Next.js application for generating I‑Ching (Yijing) oracle readings in the browser.
 
-- **Client-side app with Next.js** – the main page is `pages/index.js`, which exports a React component for the oracle interface. Next.js configuration is minimal, enabling React strict mode in `next.config.js`.
+- **Client-side app with Next.js** – the main page is `pages/index.tsx`, which exports a React component for the oracle interface. Next.js configuration is minimal, enabling React strict mode in `next.config.js`.
 - **Generating hexagrams** – constants model the four possible line types. `generateLine()` tosses three coins to decide one line, `generateHexagram()` repeats this six times, and helper functions convert line sequences to a hexagram index.
-- **Handling a user question** – the `Home` component stores the user’s question and the reading result. On form submission it generates a hexagram, looks up descriptions in `resources/iching/data/iching.js`, and computes a transformed hexagram when changing lines appear.
+- **Handling a user question** – the `Home` component stores the user’s question and the reading result. On form submission it generates a hexagram, looks up descriptions in `resources/iching/data/iching`, and computes a transformed hexagram when changing lines appear.
 - **Displaying the reading** – the UI shows the user’s question, hexagram number, glyph, and commentary. If changing lines exist, the future hexagram is also displayed. Styling comes from Tailwind CSS utilities and shadcn/ui components.
-- **Hexagram data** – `resources/iching/data/iching.js` is a large JSON object with translations and explanations. The same information is available in CSV and SQLite formats for reference.
+- **Hexagram data** – `resources/iching/data/iching` is a large JSON object with translations and explanations. The same information is available in CSV and SQLite formats for reference.
 
 ## How it Works
 
@@ -39,7 +39,7 @@ This repository contains a lightweight Next.js application for generating I‑Ch
 2. If the `components/ui` folder is missing UI elements, run `npm run shadcn:init` to install the default components from [shadcn/ui](https://ui.shadcn.com/).
 3. Start the development server with `npm run dev`.
 4. Visit the app in your browser, enter a question, and submit the form.
-5. The page generates a random hexagram, fetches the text from `resources/iching/data/iching.js`, and renders the reading with an optional transformed hexagram if changing lines are present.
+5. The page generates a random hexagram, fetches the text from `resources/iching/data/iching`, and renders the reading with an optional transformed hexagram if changing lines are present.
 
 ## API Usage
 
