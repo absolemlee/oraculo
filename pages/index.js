@@ -92,7 +92,7 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-4">
+    <div className="flex mx-auto max-w-2xl p-4">
       <Head>
         <title>Oracular Consultant</title>
       </Head>
