@@ -102,24 +102,25 @@ export default function Home() {
         <title>Oracular Consultant</title>
       </Head>
       {!result && (
-        <Card className="w-fullmax-w-md">
-          <CardHeader>
-            <CardTitle>Present your question to the Oracle</CardTitle>
-            <CardDescription>Enter your question below</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+          <Card>
+            <CardHeader>
+              <CardTitle>Present your question to the Oracle</CardTitle>
+              <CardDescription>Enter your question below</CardDescription>
+            </CardHeader>
+            <CardContent>
               <Textarea
                 value={question}
                 onChange={e => setQuestion(e.target.value)}
                 placeholder="Write your question here."
-                required />
-            </form>
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full">Ask</Button>
-          </CardFooter>
-        </Card>
+                required
+              />
+            </CardContent>
+            <CardFooter>
+              <Button type="submit" className="w-full">Ask</Button>
+            </CardFooter>
+          </Card>
+        </form>
       )}
       {result && (
         <Card>
