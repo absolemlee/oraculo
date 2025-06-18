@@ -3,7 +3,15 @@ import Head from 'next/head'
 import ichingData from '../resources/iching/data/iching'
 import { Button } from '../components/ui/button'
 import { Textarea } from '../components/ui/textarea'
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from '../components/ui/card'
 import { H1, H3, P, Small } from '../components/ui/typography'
 
 const CHANGING_YANG = 9
@@ -90,16 +98,29 @@ export default function Home() {
         <title>Oracular Consultant</title>
       </Head>
       {!result && (
-        <Card className="mb-6 bg-muted/50">
+        <Card className="w-full max-w-sm mb-6 bg-muted/50">
           <CardHeader>
             <CardTitle>Present your question to the Oracle</CardTitle>
+            <CardDescription>Enter your question below</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required />
-              <Button type="submit">Ask</Button>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <Textarea
+                value={question}
+                onChange={e => setQuestion(e.target.value)}
+                placeholder="Write your question here."
+                required
+              />
+              <CardAction>
+                <Button variant="link">Help</Button>
+              </CardAction>
             </form>
           </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full">
+              Ask
+            </Button>
+          </CardFooter>
         </Card>
       )}
       {result && (
