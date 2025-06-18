@@ -3,14 +3,17 @@ import Head from 'next/head'
 import ichingData from '@/resources/iching/data/iching'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
 import { H1, H3, P, Small } from '@/components/ui/typography'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
-
-
-// Constants for I Ching lines
 const CHANGING_YANG = 9
 const YANG = 7
 const YIN = 6
@@ -94,21 +97,28 @@ export default function Home() {
   }
 // Render the component
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center px-4">
       <Head>
         <title>Oracular Consultant</title>
       </Head>
       {!result && (
-        <Card>
+        <Card className="w-fullmax-w-md">
           <CardHeader>
             <CardTitle>Present your question to the Oracle</CardTitle>
+            <CardDescription>Enter your question below</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <Textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required />
-              <Button type="submit">Ask</Button>
+              <Textarea
+                value={question}
+                onChange={e => setQuestion(e.target.value)}
+                placeholder="Write your question here."
+                required />
             </form>
           </CardContent>
+          <CardFooter>
+            <Button type="submit" className="w-full">Ask</Button>
+          </CardFooter>
         </Card>
       )}
       {result && (
@@ -163,7 +173,10 @@ export default function Home() {
             )}
 
             {result.hasChanging && (
+
               <section>
+
+
                 <H3>Looking Forward</H3>
                 <P>
                   There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.
