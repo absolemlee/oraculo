@@ -1,11 +1,16 @@
 import { useState, FormEvent } from 'react'
 import Head from 'next/head'
-import ichingData from '../resources/iching/data/iching'
-import { Button } from '../components/ui/button'
-import { Textarea } from '../components/ui/textarea'
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card'
-import { H1, H3, P, Small } from '../components/ui/typography'
+import ichingData from '@/resources/iching/data/iching'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { H1, H3, P, Small } from '@/components/ui/typography'
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
+
+
+// Constants for I Ching lines
 const CHANGING_YANG = 9
 const YANG = 7
 const YIN = 6
@@ -16,7 +21,11 @@ Object.keys(ichingData).forEach(num => {
   const bin = (ichingData as any)[num].binary.toString().padStart(6, '0')
   BINARY_TO_WEN[bin] = parseInt(num, 10)
 })
-
+// Function to generate a single line of the hexagram
+// 0 = Yin, 1 = Yang, 2 = Changing Yin, 3 = Changing Yang
+// We use Math.round(Math.random()) to simulate coin flips
+// 0 = Yin, 1 = Yang, 2 = Changing Yin, 3 = Changing Yang
+// Heads: 0, Tails: 1
 function generateLine(): number {
   let heads = 0
   for (let i = 0; i < 3; i++) heads += Math.round(Math.random())
@@ -25,22 +34,22 @@ function generateLine(): number {
   if (heads === 1) return YIN
   return CHANGING_YIN
 }
-
+// Function to generate a complete hexagram (6 lines)
 function generateHexagram(): number[] {
   const h: number[] = []
   for (let i = 0; i < 6; i++) h.push(generateLine())
   return h
 }
-
+// Function to convert hexagram lines to a unique ID
 function hexagramIdFromLines(hex: number[]): number {
   const binStr = hex.map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0')).join('')
   return BINARY_TO_WEN[binStr]
 }
-
+// Function to get the hexagram number from the hexagram lines
 function getHexagramNumber(hex: number[]): number {
   return hexagramIdFromLines(hex)
 }
-
+// Function to process changing lines and return transformed hexagram
 function processChangingLines(hex: number[], details: any) {
   const changingLines: number[] = []
   const changingLineDetails: any[] = []
@@ -54,12 +63,13 @@ function processChangingLines(hex: number[], details: any) {
       }
     }
   })
+  // Transform the hexagram based on changing lines
   const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l))
   const transformedNumber = getHexagramNumber(transformed)
   const transformedDetails = (ichingData as any)[transformedNumber]
   return { changingLines, changingLineDetails, transformed, transformedNumber, transformedDetails }
 }
-
+// Main component for the home page
 export default function Home() {
   const [question, setQuestion] = useState('')
   const [result, setResult] = useState<any | null>(null)
@@ -69,7 +79,6 @@ export default function Home() {
     const hex = generateHexagram()
     const number = getHexagramNumber(hex)
     const details = (ichingData as any)[number]
-
     const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN)
     let transformedNumber: number | null = null
     let transformedDetails: any = null
@@ -83,19 +92,19 @@ export default function Home() {
 
     setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails })
   }
-
+// Render the component
   return (
-    <div className="flex mx-auto max-w-2xl p-4">
+    <div>
       <Head>
         <title>Oracular Consultant</title>
       </Head>
       {!result && (
-        <Card className="mb-6 bg-muted/50">
+        <Card>
           <CardHeader>
             <CardTitle>Present your question to the Oracle</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit}>
               <Textarea value={question} onChange={e => setQuestion(e.target.value)} placeholder="Write your question here." required />
               <Button type="submit">Ask</Button>
             </form>
@@ -103,26 +112,26 @@ export default function Home() {
         </Card>
       )}
       {result && (
-        <Card className="print:shadow-none print:border print:p-8 bg-muted/50">
+        <Card>
           <CardHeader>
             <CardTitle>Consultation</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent>
             <section>
-              <H3 className="mb-2">Question</H3>
-              <P className="text-center italic">{result.question}</P>
+              <H3>Question</H3>
+              <P>{result.question}</P>
             </section>
-
-            <section className="text-center">
-              <H3 className="mb-2">Primary Symbol: {result.number}</H3>
-              <H1 className="text-5xl mb-2">{result.details.hex_font}</H1>
-              <P className="font-semibold italic">{result.details.english}</P>
+        
+            <section>
+              <H3>Primary Symbol: {result.number}</H3>
+              <H1>{result.details.hex_font}</H1>
+              <P>{result.details.english}</P>
               <P>{result.details.wilhelm_symbolic}</P>
             </section>
 
             {result.details.wilhelm_judgment && (
               <section>
-                <H3 className="mb-2">Oracular Domain</H3>
+                <H3>Oracular Domain</H3>
                 <P>{result.details.wilhelm_judgment.text}</P>
                 <Small>
                   <strong>Explanation:</strong> {result.details.wilhelm_judgment.comments}
@@ -132,7 +141,7 @@ export default function Home() {
 
             {result.details.wilhelm_image && (
               <section>
-                <H3 className="mb-2">Oracular Image</H3>
+                <H3>Oracular Image</H3>
                 <P>{result.details.wilhelm_image.text}</P>
                 <Small>
                   <strong>Explanation:</strong> {result.details.wilhelm_image.comments}
@@ -142,7 +151,7 @@ export default function Home() {
 
             {result.changingLineDetails && result.changingLineDetails.length > 0 && (
               <section>
-                <H3 className="mb-2">Changing Layers</H3>
+                <H3>Changing Layers</H3>
                 {result.changingLineDetails.map((l: any) => (
                   <P key={l.line}>
                     <strong>Layer {l.line}:</strong> {l.text}
@@ -154,12 +163,12 @@ export default function Home() {
             )}
 
             {result.hasChanging && (
-              <section className="text-center">
-                <H3 className="mb-2">Looking Forward</H3>
+              <section>
+                <H3>Looking Forward</H3>
                 <P>
                   There is only now, there is only here. The developing situation as shown by the layers of change, show the most probable result in response to your question.
                 </P>
-                <H1 className="text-5xl mb-2">{result.transformedDetails.hex_font}</H1>
+                <H1>{result.transformedDetails.hex_font}</H1>
                 <P>
                   <strong>Symbolic Name:</strong> {result.transformedDetails.english}
                 </P>
