@@ -5,6 +5,7 @@
 // echoed back in the response.
 
 import ichingData from '../../resources/iching/data/iching.js';
+import { setCors } from '../../lib/cors.js';
 
 const CHANGING_YANG = 9;  // Three heads
 const YANG = 7;           // Two heads, one tail
@@ -41,6 +42,13 @@ function hexagramIdFromLines(hex) {
 }
 
 export default function handler(req, res) {
+  setCors(res);
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'GET' && req.method !== 'POST') {
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
