@@ -2,8 +2,16 @@
 // Access via `/api/hexagram/23` to retrieve hexagram 23 details.
 
 import ichingData from '../../../resources/iching/data/iching.js';
+import { setCors } from '../../../lib/cors.js';
 
 export default function handler(req, res) {
+  setCors(res);
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   const { id } = req.query;
   const numericId = parseInt(id, 10);
   if (isNaN(numericId)) {
