@@ -98,7 +98,7 @@ export default function Home() {
   }
 // Render the component
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center gap-6">
       <Head>
         <title>Oracular Consultant</title>
       </Head>
