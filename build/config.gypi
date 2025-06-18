@@ -427,6 +427,9 @@
     "python": "/home/codespace/.python/current/bin/python3",
     "standalone_static_library": 1,
     "user_agent": "pnpm/10.6.4 npm/? node/v20.19.0 linux x64",
+    "registry": "https://registry.npmjs.org/",
+    "node_gyp": "/usr/local/share/nvm/versions/node/v20.19.0/lib/node_modules/pnpm/dist/node_modules/node-gyp/bin/node-gyp.js",
+    "frozen_lockfile": "",
     "verify_deps_before_run": "false"
   }
 }

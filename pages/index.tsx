@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/card'
 import { H1, H3, P, Small } from '@/components/ui/typography'
 
+
 const CHANGING_YANG = 9
 const YANG = 7
 const YIN = 6
