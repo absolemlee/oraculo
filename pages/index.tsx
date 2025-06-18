@@ -1,95 +1,88 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import ichingData from '../resources/iching/data/iching.js';
-import { Button } from '../components/ui/button';
-import { Textarea } from '../components/ui/textarea';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
-import { H1, H3, P, Small } from '../components/ui/typography';
+import { useState, FormEvent } from 'react'
+import Head from 'next/head'
+import ichingData from '../resources/iching/data/iching'
+import { Button } from '../components/ui/button'
+import { Textarea } from '../components/ui/textarea'
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card'
+import { H1, H3, P, Small } from '../components/ui/typography'
 
-const CHANGING_YANG = 9;  // Three heads
-const YANG = 7;           // Two heads, one tail
-const YIN = 6;            // Two tails, one head
-const CHANGING_YIN = 8;   // Three tails
+const CHANGING_YANG = 9
+const YANG = 7
+const YIN = 6
+const CHANGING_YIN = 8
 
-// Map binary line patterns to the traditional King Wen hexagram numbers
-const BINARY_TO_WEN = {};
+const BINARY_TO_WEN: Record<string, number> = {}
 Object.keys(ichingData).forEach(num => {
-  const bin = ichingData[num].binary.toString().padStart(6, '0');
-  BINARY_TO_WEN[bin] = parseInt(num, 10);
-});
+  const bin = (ichingData as any)[num].binary.toString().padStart(6, '0')
+  BINARY_TO_WEN[bin] = parseInt(num, 10)
+})
 
-function generateLine() {
-  let heads = 0;
-  for (let i = 0; i < 3; i++) {
-    heads += Math.round(Math.random());
-  }
-  if (heads === 3) return CHANGING_YANG;
-  if (heads === 2) return YANG;
-  if (heads === 1) return YIN;
-  return CHANGING_YIN;
+function generateLine(): number {
+  let heads = 0
+  for (let i = 0; i < 3; i++) heads += Math.round(Math.random())
+  if (heads === 3) return CHANGING_YANG
+  if (heads === 2) return YANG
+  if (heads === 1) return YIN
+  return CHANGING_YIN
 }
 
-function generateHexagram() {
-  const h = [];
-  for (let i = 0; i < 6; i++) h.push(generateLine());
-  return h;
+function generateHexagram(): number[] {
+  const h: number[] = []
+  for (let i = 0; i < 6; i++) h.push(generateLine())
+  return h
 }
 
-function hexagramIdFromLines(hex) {
-  const binStr = hex
-    .map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0'))
-    .join('');
-  return BINARY_TO_WEN[binStr];
+function hexagramIdFromLines(hex: number[]): number {
+  const binStr = hex.map(l => (l === YANG || l === CHANGING_YANG ? '1' : '0')).join('')
+  return BINARY_TO_WEN[binStr]
 }
 
-function getHexagramNumber(hex) {
-  return hexagramIdFromLines(hex);
+function getHexagramNumber(hex: number[]): number {
+  return hexagramIdFromLines(hex)
 }
 
-function processChangingLines(hex, details) {
-  const changingLines = [];
-  const changingLineDetails = [];
+function processChangingLines(hex: number[], details: any) {
+  const changingLines: number[] = []
+  const changingLineDetails: any[] = []
   hex.forEach((l, idx) => {
     if (l === CHANGING_YANG || l === CHANGING_YIN) {
-      const lineNo = idx + 1;
-      changingLines.push(lineNo);
-      const lineData = details.wilhelm_lines[String(lineNo)];
+      const lineNo = idx + 1
+      changingLines.push(lineNo)
+      const lineData = details.wilhelm_lines[String(lineNo)]
       if (lineData) {
-        changingLineDetails.push({ line: lineNo, ...lineData });
+        changingLineDetails.push({ line: lineNo, ...lineData })
       }
     }
-  });
-  const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l));
-  const transformedNumber = getHexagramNumber(transformed);
-  const transformedDetails = ichingData[transformedNumber];
-  return { changingLines, changingLineDetails, transformed, transformedNumber, transformedDetails };
+  })
+  const transformed = hex.map(l => (l === CHANGING_YANG ? YIN : l === CHANGING_YIN ? YANG : l))
+  const transformedNumber = getHexagramNumber(transformed)
+  const transformedDetails = (ichingData as any)[transformedNumber]
+  return { changingLines, changingLineDetails, transformed, transformedNumber, transformedDetails }
 }
 
 export default function Home() {
-  const [question, setQuestion] = useState('');
-  const [result, setResult] = useState(null);
+  const [question, setQuestion] = useState('')
+  const [result, setResult] = useState<any | null>(null)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const hex = generateHexagram();
-    const number = getHexagramNumber(hex);
-    const details = ichingData[number];
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const hex = generateHexagram()
+    const number = getHexagramNumber(hex)
+    const details = (ichingData as any)[number]
 
-    const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN);
-    let transformed = null;
-    let transformedNumber = null;
-    let transformedDetails = null;
-    let changingLineDetails = [];
+    const hasChanging = hex.includes(CHANGING_YANG) || hex.includes(CHANGING_YIN)
+    let transformedNumber: number | null = null
+    let transformedDetails: any = null
+    let changingLineDetails: any[] = []
     if (hasChanging) {
-      const processed = processChangingLines(hex, details);
-      changingLineDetails = processed.changingLineDetails;
-      transformed = processed.transformed;
-      transformedNumber = processed.transformedNumber;
-      transformedDetails = processed.transformedDetails;
+      const processed = processChangingLines(hex, details)
+      changingLineDetails = processed.changingLineDetails
+      transformedNumber = processed.transformedNumber
+      transformedDetails = processed.transformedDetails
     }
 
-    setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails });
-  };
+    setResult({ question, number, details, hasChanging, transformedNumber, transformedDetails, changingLineDetails })
+  }
 
   return (
     <div className="flex mx-auto max-w-2xl p-4">
@@ -150,7 +143,7 @@ export default function Home() {
             {result.changingLineDetails && result.changingLineDetails.length > 0 && (
               <section>
                 <H3 className="mb-2">Changing Layers</H3>
-                {result.changingLineDetails.map(l => (
+                {result.changingLineDetails.map((l: any) => (
                   <P key={l.line}>
                     <strong>Layer {l.line}:</strong> {l.text}
                     <br />
@@ -179,5 +172,5 @@ export default function Home() {
         </Card>
       )}
     </div>
-  );
+  )
 }
