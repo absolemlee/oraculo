@@ -52,3 +52,33 @@ These endpoints make it easy to embed Oraculo as a module in larger projects or 
 
 For full endpoint details see [API.md](API.md).
 
+## Ifá Mapping and Glyph Output
+
+The casting flow now includes Ifá odù mapping and glyph rendering:
+
+- Each hexagram is mapped to two Ifá odù (primary and secondary) using trigram correspondence.
+- Glyphs are rendered as four-line patterns using ┃ (single) and ◯ (double) for each odù.
+
+### Example Output
+
+```json
+{
+  "ifa": {
+    "primaryName": "Ogbe + Oyeku",
+    "primaryGlyph": "◯\n◯\n◯\n◯\n---\n┃\n┃\n┃\n◯",
+    "secondaryName": "Iwori + Idi",
+    "secondaryGlyph": "┃\n◯\n◯\n◯\n---\n┃\n┃\n◯\n◯"
+  }
+}
+```
+
+### Utility Modules
+- `src/utils/ifaMapping.js`: Trigram ↔ Ifá odù mapping
+- `src/utils/hexagramUtils.js`: Extraction and transformation helpers
+- `src/utils/ifaRenderer.js`: Renders Ifá glyphs
+- `src/utils/ifaMapper.js`: Maps hexagram to Ifá pair
+- `src/hexagramCaster.js`: Integration in casting flow
+
+### Testing
+See `__tests__/ifaMapper.test.js` for sample tests.
+

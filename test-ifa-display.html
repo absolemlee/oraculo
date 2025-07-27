@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ifá Display Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .side-by-side { display: flex; justify-content: center; align-items: start; gap: 50px; }
+        .trigram { text-align: center; }
+        .pattern { 
+            background: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 8px; 
+            min-height: 120px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .glyph { font-family: monospace; font-size: 24px; line-height: 1.5; }
+        .name { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Current Ifá Display Implementation</h1>
+    
+    <h2>Example: Two Ifá signs side by side</h2>
+    <div class="side-by-side">
+        <div class="trigram">
+            <div class="pattern">
+                <pre class="glyph">┃
+◯
+┃
+◯</pre>
+            </div>
+            <p class="name">Lower Trigram Name</p>
+        </div>
+        <div class="trigram">
+            <div class="pattern">
+                <pre class="glyph">◯
+┃
+◯
+┃</pre>
+            </div>
+            <p class="name">Upper Trigram Name</p>
+        </div>
+    </div>
+    
+    <p><strong>This shows:</strong></p>
+    <ul>
+        <li>Left side: Lower trigram (cast first) with its Ifá pattern and name</li>
+        <li>Right side: Upper trigram (cast second) with its Ifá pattern and name</li>
+        <li>Both displayed horizontally side by side</li>
+        <li>Each pattern displayed vertically as traditional Ifá signs</li>
+    </ul>
+</body>
+</html>
