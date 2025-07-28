@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { RuneCasting } from '@/components/rune-casting';
+import TarotCasting from '@/components/tarot-casting';
 
 interface TraditionalReading {
   question: string;
@@ -71,8 +74,19 @@ interface HexagramDetails {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'traditional' | 'ifa' | 'lookup'>('traditional');
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'traditional' | 'ifa' | 'runes' | 'tarot' | 'lookup'>('traditional');
   const [loading, setLoading] = useState(false);
+
+  // Handle URL tab parameter
+  useEffect(() => {
+    if (router.query.tab) {
+      const tab = router.query.tab as string;
+      if (['traditional', 'ifa', 'runes', 'lookup'].includes(tab)) {
+        setActiveTab(tab as 'traditional' | 'ifa' | 'runes' | 'tarot' | 'lookup');
+      }
+    }
+  }, [router.query.tab]);
   
   // Traditional reading state
   const [traditionalQuestion, setTraditionalQuestion] = useState('What guidance do you have for me?');
@@ -172,6 +186,21 @@ export default function Home() {
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Oráculo</h1>
           <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">Ancient Wisdom Through I-Ching and Ifá Divination</p>
+          <div className="mt-6">
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/dashboard'}
+              className="mr-4"
+            >
+              📊 Dashboard
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              🔮 Oracle Console
+            </Button>
+          </div>
         </div>
 
         {/* Main Card Container */}
@@ -198,6 +227,20 @@ export default function Home() {
                     className="text-sm sm:text-base px-6 py-3 rounded-lg transition-all"
                   >
                     Ifá Correspondence
+                  </Button>
+                  <Button
+                    variant={activeTab === 'runes' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('runes')}
+                    className="text-sm sm:text-base px-6 py-3 rounded-lg transition-all"
+                  >
+                    Runes
+                  </Button>
+                  <Button
+                    variant={activeTab === 'tarot' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('tarot')}
+                    className="text-sm sm:text-base px-6 py-3 rounded-lg transition-all"
+                  >
+                    Tarot
                   </Button>
                   <Button
                     variant={activeTab === 'lookup' ? 'default' : 'ghost'}
@@ -257,6 +300,28 @@ export default function Home() {
                     {loading ? 'Consulting Ifá...' : 'Get Ifá Reading'}
                   </Button>
                 </div>
+              </div>
+            )}
+
+            {/* Runes Tab */}
+            {activeTab === 'runes' && (
+              <div className="bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-100">
+                <h3 className="text-xl font-semibold text-purple-900 mb-3">Elder Futhark Runes</h3>
+                <p className="text-purple-700 mb-4">
+                  Cast runes from the ancient Nordic Elder Futhark for guidance and wisdom
+                </p>
+                <RuneCasting />
+              </div>
+            )}
+
+            {/* Tarot Tab */}
+            {activeTab === 'tarot' && (
+              <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-6 border border-rose-100">
+                <h3 className="text-xl font-semibold text-rose-900 mb-3">Tarot Cards</h3>
+                <p className="text-rose-700 mb-4">
+                  Discover insights through the ancient wisdom of the 78-card Tarot deck
+                </p>
+                <TarotCasting />
               </div>
             )}
 
