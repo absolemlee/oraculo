@@ -19,7 +19,7 @@
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwind-variants": "^1.0.0"
+    "tailwind-variants": "^2.0.0"
   },
   "devDependencies": {
     "@radix-ui/react-icons": "^1.3.2",
