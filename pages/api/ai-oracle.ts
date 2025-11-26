@@ -506,7 +506,7 @@ export default async function handler(
         temporalGuidance: {
           description: 'Three runes reveal your path through time using the Norns spread (Past, Present, Future)',
           past: {
-            symbol: runeReadings[0].rune.unicode,
+            symbol: runeReadings[0].rune.symbol,
             symbolName: runeReadings[0].rune.name,
             orientation: runeReadings[0].reversed ? 'reversed' : 'upright',
             meaning: generateRuneInterpretation(runeReadings[0].rune, runeReadings[0].reversed, 'past'),
@@ -515,7 +515,7 @@ export default async function handler(
             element: runeReadings[0].element
           },
           present: {
-            symbol: runeReadings[1].rune.unicode,
+            symbol: runeReadings[1].rune.symbol,
             symbolName: runeReadings[1].rune.name,
             orientation: runeReadings[1].reversed ? 'reversed' : 'upright',
             meaning: generateRuneInterpretation(runeReadings[1].rune, runeReadings[1].reversed, 'present'),
@@ -524,7 +524,7 @@ export default async function handler(
             element: runeReadings[1].element
           },
           future: {
-            symbol: runeReadings[2].rune.unicode,
+            symbol: runeReadings[2].rune.symbol,
             symbolName: runeReadings[2].rune.name,
             orientation: runeReadings[2].reversed ? 'reversed' : 'upright',
             meaning: generateRuneInterpretation(runeReadings[2].rune, runeReadings[2].reversed, 'future'),
@@ -541,7 +541,7 @@ export default async function handler(
             name: tarotCard.name,
             arcana: tarotCard.arcana,
             suit: tarotCard.suit,
-            number: tarotCard.number,
+            number: typeof tarotCard.number === 'number' ? tarotCard.number : undefined,
             orientation: tarotReversed ? 'reversed' : 'upright',
             meaning: tarotReversed ? tarotCard.divination.reversed : tarotCard.divination.upright,
             keywords: tarotCard.keywords,

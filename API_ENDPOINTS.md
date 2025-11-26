@@ -942,6 +942,444 @@ The AI-optimized response includes extensive metadata and structured guidance de
 
 ---
 
+## AI-Optimized Oracle Reading
+
+⭐ **Specifically designed for AI/LLM agents** - Comprehensive reading with structured, machine-readable guidance optimized for AI consumption and interpretation.
+
+### Endpoint
+```
+POST /api/ai-oracle
+```
+
+### Overview
+
+This endpoint provides the same comprehensive divination reading as the Unified Oracle but with a response structure specifically optimized for AI agents and LLM consumption. It includes:
+
+- **Executive summaries** for quick parsing
+- **Structured guidance** with clear categorization
+- **Confidence scores** and complexity indicators
+- **Actionable insights** with priority levels
+- **Prompt helpers** for LLM context integration
+- **Multiple application contexts** (personal, professional, spiritual, relational)
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `question` | string | Yes | The question or topic for the comprehensive reading |
+| `requestedBy` | string | No | Identifier for the AI agent making the request |
+| `context` | string | No | Additional context about the reading request |
+
+### Request Example
+
+```bash
+curl -X POST http://localhost:4545/api/ai-oracle \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "What guidance do I need for my current situation?",
+    "requestedBy": "assistant-gpt4",
+    "context": "User seeking career advice"
+  }'
+```
+
+### Response Schema
+
+```typescript
+{
+  // Unique tracking identifier
+  id: string;                    // e.g., "ai-reading-1732584000000-a1b2c3d4"
+  version: string;               // API version: "1.0.0"
+  timestamp: string;             // ISO 8601 timestamp
+  
+  // Original query context
+  query: {
+    question: string;
+    requestedBy?: string;        // AI agent identifier
+    context?: string;            // Additional context
+  };
+  
+  // Executive summary for quick LLM parsing
+  summary: {
+    primaryMessage: string;      // High-level synthesis paragraph
+    keyThemes: string[];         // 5 main themes extracted
+    suggestedTone: string;       // 'thoughtful' | 'empowering' | 'cautious' | 'encouraging' | 'reflective'
+    confidence: number;          // 0-1 scale based on thematic alignment
+    complexity: string;          // 'simple' | 'moderate' | 'complex'
+  };
+  
+  // Detailed reading sections
+  reading: {
+    // Past-Present-Future temporal analysis
+    temporalGuidance: {
+      description: string;
+      past: {
+        symbol: string;          // Unicode rune character
+        symbolName: string;      // Rune name
+        orientation: string;     // 'upright' | 'reversed'
+        meaning: string;         // Full interpretation
+        influence: string;       // How it affects the reading
+        keywords: string[];      // Key concepts
+        element: string;         // Associated element
+      };
+      present: { /* same structure */ };
+      future: { /* same structure */ };
+      narrative: string;         // Synthesized temporal story
+    };
+    
+    // Current situation/energy
+    currentEnergy: {
+      description: string;
+      card: {
+        name: string;            // Tarot card name
+        arcana: string;          // 'major' | 'minor'
+        suit?: string;           // For minor arcana
+        number?: number;         // Card number
+        orientation: string;     // 'upright' | 'reversed'
+        meaning: string;         // Full interpretation
+        keywords: string[];      // Key concepts
+        element?: string;        // Associated element
+      };
+      interpretation: string;    // Contextual interpretation
+      practicalAdvice: string;   // Actionable guidance
+    };
+    
+    // Resolution path with ancient wisdom
+    resolutionPath: {
+      description: string;
+      hexagram: {
+        number: number;          // 1-64
+        name: string;            // English name
+        chineseName: string;     // Traditional Chinese
+        symbol: string;          // Unicode hexagram
+        meaning: string;         // Wilhelm interpretation
+        trigrams: {
+          upper: string;         // Upper trigram
+          lower: string;         // Lower trigram
+          composition: string;   // Description of combination
+        };
+      };
+      ifa: {
+        odu: string;             // Ifá Odu name
+        glyph: string;           // Ifá glyph
+        components: {
+          primary: string;       // Primary Odu
+          secondary: string;     // Secondary Odu
+        };
+      };
+      isChanging: boolean;       // Whether hexagram has changing lines
+      changingGuidance?: {
+        description: string;
+        lines: Array<{
+          position: number;      // Line number 1-6
+          text: string;          // Line text
+          meaning: string;       // Interpretation
+        }>;
+        transformsTo?: {
+          number: number;        // Target hexagram
+          name: string;          // Target name
+          symbol: string;        // Target symbol
+          meaning: string;       // Target meaning
+        };
+      };
+      wisdomText: string;        // Synthesized wisdom
+    };
+  };
+  
+  // Synthesized guidance optimized for LLM
+  guidance: {
+    overallMessage: string;      // Complete synthesis
+    
+    // Actionable insights with priority
+    actionableInsights: Array<{
+      priority: string;          // 'high' | 'medium' | 'low'
+      category: string;          // 'immediate' | 'short-term' | 'long-term'
+      action: string;            // What to do
+      rationale: string;         // Why it matters
+    }>;
+    
+    // Timing guidance
+    timing: {
+      urgency: string;           // 'immediate' | 'soon' | 'gradual' | 'patient'
+      description: string;       // Temporal context
+      phaseOfChange: string;     // 'beginning' | 'middle' | 'completion' | 'stable'
+    };
+    
+    // Balanced perspective
+    considerations: {
+      strengths: string[];       // Advantages and assets
+      challenges: string[];      // Obstacles and difficulties
+      opportunities: string[];   // Potential and possibilities
+    };
+    
+    // Multi-domain application
+    applicationContext: {
+      personal: string;          // Personal development context
+      professional: string;      // Career/work context
+      spiritual: string;         // Spiritual/inner context
+      relational: string;        // Relationship context
+    };
+  };
+  
+  // Processing metadata
+  metadata: {
+    readingType: string;         // 'unified-oracle'
+    systemsUsed: string[];       // Systems involved
+    processingTimeMs: number;    // Processing duration
+    symbolsCount: {
+      runes: number;             // Number of runes drawn
+      tarot: number;             // Number of tarot cards
+      hexagrams: number;         // Number of hexagrams (1-2)
+    };
+  };
+  
+  // Prompt helpers for LLM integration
+  promptHelpers: {
+    contextSummary: string;      // Ready-to-use context for prompts
+    responseFraming: string;     // Suggested response approach
+    emphasisPoints: string[];    // Key points to highlight
+  };
+}
+```
+
+### Response Example (Simplified)
+
+```json
+{
+  "id": "ai-reading-1732584000000-a1b2c3d4",
+  "version": "1.0.0",
+  "timestamp": "2025-11-26T10:30:00.000Z",
+  "query": {
+    "question": "What guidance do I need for my current situation?",
+    "requestedBy": "assistant-gpt4"
+  },
+  "summary": {
+    "primaryMessage": "The oracle reveals a reading centered on transformation and courage. The Magician illuminates your current path, while Hexagram 1 (The Creative) provides ancient wisdom for resolution. The stable hexagram suggests maintaining your current course.",
+    "keyThemes": ["strength", "manifestation", "power", "Fire", "stability"],
+    "suggestedTone": "empowering",
+    "confidence": 0.85,
+    "complexity": "moderate"
+  },
+  "reading": {
+    "temporalGuidance": {
+      "description": "Three runes reveal your path through time using the Norns spread",
+      "past": {
+        "symbol": "ᚢ",
+        "symbolName": "Uruz",
+        "orientation": "upright",
+        "meaning": "Strength and primal power have shaped your foundation...",
+        "influence": "The Uruz rune in your past indicates foundational energies...",
+        "keywords": ["strength", "vitality", "endurance"],
+        "element": "Earth"
+      },
+      "present": { "..." },
+      "future": { "..." },
+      "narrative": "Your journey begins with Uruz, representing strength in your past..."
+    },
+    "currentEnergy": {
+      "description": "A single Tarot card reveals the energy of your current path",
+      "card": {
+        "name": "The Magician",
+        "arcana": "major",
+        "orientation": "upright",
+        "meaning": "The Magician represents manifestation and power...",
+        "keywords": ["manifestation", "power", "action", "resourcefulness"],
+        "element": "Air"
+      },
+      "interpretation": "The Magician appears in your reading, bringing significant life lessons...",
+      "practicalAdvice": "Focus on integrating manifestation, power, action into your current situation..."
+    },
+    "resolutionPath": {
+      "description": "The I-Ching hexagram with Ifá correspondence reveals resolution",
+      "hexagram": {
+        "number": 1,
+        "name": "The Creative",
+        "chineseName": "乾",
+        "symbol": "䷀",
+        "meaning": "Supreme creative power and heaven's blessing...",
+        "trigrams": {
+          "upper": "HEAVEN",
+          "lower": "HEAVEN",
+          "composition": "The Creative, Heaven above The Creative, Heaven"
+        }
+      },
+      "ifa": {
+        "odu": "Ogbe + Otura",
+        "glyph": "𝍠",
+        "components": {
+          "primary": "Ogbe",
+          "secondary": "Otura"
+        }
+      },
+      "isChanging": false,
+      "wisdomText": "Hexagram 1: The Creative corresponds to the Ifá Odu Ogbe + Otura..."
+    }
+  },
+  "guidance": {
+    "overallMessage": "The oracle reveals a reading centered on transformation and courage...",
+    "actionableInsights": [
+      {
+        "priority": "high",
+        "category": "immediate",
+        "action": "Focus on cultivating strength in your current situation",
+        "rationale": "The Uruz rune in your present position emphasizes this energy"
+      },
+      {
+        "priority": "high",
+        "category": "short-term",
+        "action": "Engage with the themes of manifestation and power",
+        "rationale": "The Magician card illuminates your current path"
+      }
+    ],
+    "timing": {
+      "urgency": "gradual",
+      "description": "This is a period for patient, steady progress...",
+      "phaseOfChange": "stable"
+    },
+    "considerations": {
+      "strengths": [
+        "Strong foundation from Uruz energy in your past",
+        "Current alignment with The Magician themes",
+        "Ancient wisdom of The Creative provides guidance"
+      ],
+      "challenges": [
+        "Maintaining balance with The Magician energy",
+        "Exercising patience during stable period"
+      ],
+      "opportunities": [
+        "Leveraging Kenaz potential in the future",
+        "Applying manifestation to current challenges",
+        "Building sustainable foundations"
+      ]
+    },
+    "applicationContext": {
+      "personal": "In your personal development, this reading emphasizes strength and manifestation...",
+      "professional": "For career matters, consider how The Magician energy can be channeled...",
+      "spiritual": "Spiritually, this reading invites contemplation of Uruz energy...",
+      "relational": "In relationships, The Magician card suggests approaching with manifestation..."
+    }
+  },
+  "metadata": {
+    "readingType": "unified-oracle",
+    "systemsUsed": ["Elder Futhark Runes", "Tarot", "I-Ching", "Ifá"],
+    "processingTimeMs": 245,
+    "symbolsCount": {
+      "runes": 3,
+      "tarot": 1,
+      "hexagrams": 1
+    }
+  },
+  "promptHelpers": {
+    "contextSummary": "This oracle reading combines Runes (Uruz, Kenaz, Fehu), Tarot (The Magician), and I-Ching (Hexagram 1: The Creative) to address: 'What guidance do I need for my current situation?'. Primary themes include strength, manifestation, power.",
+    "responseFraming": "When responding to the user, adopt an empowering tone. This is a moderate reading with high thematic coherence. Emphasize the connection between past influences, present energy, and future potential.",
+    "emphasisPoints": [
+      "The Kenaz rune in the present position",
+      "The Magician card's upright orientation",
+      "Hexagram 1: The Creative",
+      "The stability of the hexagram",
+      "Key themes: strength and manifestation"
+    ]
+  }
+}
+```
+
+### AI Integration Guide
+
+#### Using the Response in Your AI Agent
+
+```python
+# Example: Python AI agent integration
+import requests
+import json
+
+def consult_oracle(question: str, agent_id: str = "my-ai-agent"):
+    response = requests.post(
+        "http://localhost:4545/api/ai-oracle",
+        json={
+            "question": question,
+            "requestedBy": agent_id
+        }
+    )
+    reading = response.json()
+    
+    # Extract key information for AI processing
+    context = reading["promptHelpers"]["contextSummary"]
+    tone = reading["summary"]["suggestedTone"]
+    primary_message = reading["summary"]["primaryMessage"]
+    actionable_insights = reading["guidance"]["actionableInsights"]
+    
+    # Build AI prompt with oracle context
+    ai_prompt = f"""
+    {reading["promptHelpers"]["responseFraming"]}
+    
+    Oracle Reading Context:
+    {context}
+    
+    Primary Message:
+    {primary_message}
+    
+    Please provide a {tone} response that incorporates these insights.
+    """
+    
+    return ai_prompt, reading
+
+# Usage
+prompt, oracle_data = consult_oracle("How should I approach my new project?")
+# Use prompt with your LLM API
+```
+
+#### Quick Start for LLM Integration
+
+```javascript
+// Example: JavaScript/TypeScript integration
+async function getOracleGuidance(question: string) {
+  const response = await fetch('http://localhost:4545/api/ai-oracle', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question })
+  });
+  
+  const reading = await response.json();
+  
+  // Direct LLM prompt construction
+  const llmContext = `
+    ${reading.promptHelpers.contextSummary}
+    
+    Tone: ${reading.summary.suggestedTone}
+    Confidence: ${(reading.summary.confidence * 100).toFixed(0)}%
+    
+    Key Guidance:
+    ${reading.guidance.actionableInsights.map(insight => 
+      `- ${insight.action} (${insight.priority} priority)`
+    ).join('\n')}
+  `;
+  
+  return {
+    context: llmContext,
+    rawReading: reading,
+    emphasisPoints: reading.promptHelpers.emphasisPoints
+  };
+}
+```
+
+### Key Features for AI Agents
+
+1. **Confidence Scoring**: Use `summary.confidence` (0-1) to gauge reading coherence
+2. **Complexity Assessment**: Adjust response depth based on `summary.complexity`
+3. **Priority Sorting**: Action insights include priority levels for ranking
+4. **Multi-Domain Context**: Apply reading across personal/professional/spiritual/relational domains
+5. **Temporal Awareness**: Use `timing.urgency` and `timing.phaseOfChange` for temporal framing
+6. **Tone Guidance**: `summary.suggestedTone` indicates optimal response tone
+7. **Ready-to-Use Context**: `promptHelpers.contextSummary` provides immediate LLM context
+8. **Emphasis Points**: `promptHelpers.emphasisPoints` highlight what to stress in responses
+
+### Response Time
+
+Typical processing time: **200-400ms**
+
+The endpoint makes internal calls to generate the full unified reading, so expect slightly longer response times than individual oracle endpoints.
+
+---
+
 ## Hexagram Lookup
 
 Retrieve detailed information about a specific I-Ching hexagram by its number.
@@ -1129,10 +1567,42 @@ Use the provided console pages for interactive testing:
 - Unified Oracle: `/console/unified`
 - Hexagram Lookup: `/console/lookup`
 
+### Testing the AI Oracle Endpoint
+
+```bash
+# Quick test with curl
+curl -X POST http://localhost:4545/api/ai-oracle \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What should I focus on today?"}' | jq .
+
+# Test with agent identifier
+curl -X POST http://localhost:4545/api/ai-oracle \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "How can I improve my work-life balance?",
+    "requestedBy": "test-agent-v1",
+    "context": "User seeking wellness advice"
+  }' | jq '.summary'
+```
+
 ---
 
 ## Support
 
 For issues, questions, or feature requests, please refer to the project repository or documentation.
 
-**Last Updated:** November 25, 2025
+---
+
+## Endpoint Comparison
+
+| Endpoint | Best For | Complexity | Response Size | AI-Friendly |
+|----------|----------|------------|---------------|-------------|
+| `/api/reading` | Traditional I-Ching divination | Medium | Medium | ⭐⭐⭐ |
+| `/api/ifa-reading` | Yoruba tradition seekers | Medium | Medium | ⭐⭐⭐ |
+| `/api/rune-reading` | Nordic tradition, quick draws | Low-Medium | Small-Medium | ⭐⭐⭐⭐ |
+| `/api/tarot-reading` | Tarot spreads and draws | Low-High | Small-Large | ⭐⭐⭐⭐ |
+| `/api/unified-oracle` | Comprehensive multi-system readings | High | Large | ⭐⭐⭐⭐ |
+| `/api/ai-oracle` | **AI/LLM agent consumption** | High | Large | ⭐⭐⭐⭐⭐ |
+| `/api/hexagram/[id]` | Reference lookups | Low | Medium | ⭐⭐⭐ |
+
+**Last Updated:** November 26, 2025
