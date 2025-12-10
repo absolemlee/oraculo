@@ -1,7 +1,27 @@
 node_modules/
 .next/
 .env.local
+.env
+.env.production
 
 # logs
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# testing
+coverage/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+.vscode/
+.idea/
+
+# build
+out/
+build/
+dist/
 
